@@ -32,6 +32,18 @@ void Player::Controls::send_controls_message(Connection *connection_) const {
 	send_button(jump);
 }
 
+/*
+client side: 
+	a. calculate scores;
+	b. update position based on input
+*/
+
+/*
+server side: 
+	a. respawn instruction with colors, 
+	b. updating the player position;
+*/
+
 bool Player::Controls::recv_controls_message(Connection *connection_) {
 	assert(connection_);
 	auto &connection = *connection_;
