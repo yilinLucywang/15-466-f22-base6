@@ -188,7 +188,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 		}
 
 		//TODO: display local player's score
-		draw_text(game.players[0] + glm::vec2(0.0f, -0.1f + Game::PlayerRadius), player.score, 0.09f);
+		draw_text(game.players.front().position + glm::vec2(0.0f, -0.1f + Game::PlayerRadius), std::to_string(game.players.front().score), 0.09f);
 	}
 	GL_ERRORS();
 }

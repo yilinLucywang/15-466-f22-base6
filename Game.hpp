@@ -44,7 +44,7 @@ struct Player {
 
 	//TODOLucy: what I have added
 	int score = 0;
-	int box_idx = 0
+	int box_idx = 0;
 
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 	std::string name = "";
@@ -91,6 +91,6 @@ struct Game {
 
 	//five boxes
 	std::vector<glm::vec2> box_positions{glm::vec2(10.0f, 10.0f), glm::vec2(15.0f,15.0f), glm::vec2(20.0f, 20.0f), glm::vec2(25.0f, 25.0f), glm::vec2(30.0f, 30.0f)};
-	float box_size = 0.06f;
+	inline static constexpr float box_size = 0.06f;
 	int box_idx = 0;
 };
