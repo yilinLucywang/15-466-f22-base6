@@ -47,7 +47,6 @@ int main(int argc, char **argv) {
 	std::unordered_map< Connection *, Player * > connection_to_player;
 	//keep track of game state:
 	Game game;
-
 	while (true) {
 		static auto next_tick = std::chrono::steady_clock::now() + std::chrono::duration< double >(Game::Tick);
 		//process incoming data from clients until a tick has elapsed:
@@ -81,20 +80,21 @@ int main(int argc, char **argv) {
 
 				} else { assert(evt == Connection::OnRecv);
 					//got data from client:
-					//std::cout << "current buffer:\n" << hex_dump(c->recv_buffer); std::cout.flush(); //DEBUG
-
+					//TODOLucy: process data and then give a random number between 0-5
+					std::cout << "current buffer:\n" << hex_dump(c->recv_buffer); std::cout.flush(); //DEBUG
 					//look up in players list:
+
+					//here is how you find the player via connection
 					auto f = connection_to_player.find(c);
+
 					assert(f != connection_to_player.end());
 					Player &player = *f->second;
-
-					//handle messages from client:
+					//handle control messages from client:
 					try {
 						bool handled_message;
 						do {
 							handled_message = false;
 							if (player.controls.recv_controls_message(c)) handled_message = true;
-							//TODO: extend for more message types as needed
 						} while (handled_message);
 					} catch (std::exception const &e) {
 						std::cout << "Disconnecting client:" << e.what() << std::endl;
@@ -112,10 +112,7 @@ int main(int argc, char **argv) {
 		for (auto &[c, player] : connection_to_player) {
 			game.send_state_message(c, player);
 		}
-
 	}
-
-
 	return 0;
 
 #ifdef _WIN32

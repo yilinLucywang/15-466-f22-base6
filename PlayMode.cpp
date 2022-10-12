@@ -99,6 +99,7 @@ void PlayMode::update(float elapsed) {
 			}
 		}
 	}, 0.0);
+
 }
 
 void PlayMode::draw(glm::uvec2 const &drawable_size) {
@@ -175,8 +176,15 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 				);
 			}
 
+			//TODO: draw those boxes
+
+
 			draw_text(player.position + glm::vec2(0.0f, -0.1f + Game::PlayerRadius), player.name, 0.09f);
+			
 		}
+
+		//TODO: display local player's score
+		draw_text(game.players[0] + glm::vec2(0.0f, -0.1f + Game::PlayerRadius), player.score, 0.09f);
 	}
 	GL_ERRORS();
 }

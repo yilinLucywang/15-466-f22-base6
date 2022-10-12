@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
-
+#include <cmath>
 #include <glm/gtx/norm.hpp>
 
 void Player::Controls::send_controls_message(Connection *connection_) const {
@@ -31,10 +31,9 @@ void Player::Controls::send_controls_message(Connection *connection_) const {
 	send_button(down);
 	send_button(jump);
 }
-
 /*
 client side: 
-	a. calculate scores;
+	a. calculate scores(increase size based on score);
 	b. update position based on input
 */
 
@@ -82,7 +81,6 @@ bool Player::Controls::recv_controls_message(Connection *connection_) {
 
 	return true;
 }
-
 
 //-----------------------------------------
 
@@ -197,8 +195,26 @@ void Game::update(float elapsed) {
 		}
 	}
 
-}
+	//TODO: collision check per player here, 
+	//TODO: update scores
+	bool is_collide = false;
+	for (auto &p : players) {
+		glm::vec2 box_pos = box_positions[box_idx];
+		glm::vec2 ppos = p.position;
+		float dist = sqrtf((box_pos.x - ppos.x)*(box_pos.x - ppos.x) + (box_pos.y - ppos.y)*(box_pos.y - ppos.y));
+		if(dist <= (PlayerRadius + box_size)){
+			is_collide = true;
+			p.score = p.score + 1; 
+		}
+	}
 
+	if(is_collide){
+		box_idx = std::rand()%5;
+		for (auto &p : players) {
+			p.box_idx = box_idx;
+		}
+	}
+}
 
 void Game::send_state_message(Connection *connection_, Player *connection_player) const {
 	assert(connection_);
@@ -209,6 +225,7 @@ void Game::send_state_message(Connection *connection_, Player *connection_player
 	connection.send(uint8_t(0));
 	connection.send(uint8_t(0));
 	connection.send(uint8_t(0));
+
 	size_t mark = connection.send_buffer.size(); //keep track of this position in the buffer
 
 
@@ -217,16 +234,23 @@ void Game::send_state_message(Connection *connection_, Player *connection_player
 		connection.send(player.position);
 		connection.send(player.velocity);
 		connection.send(player.color);
-	
+
+		//TODO: send box idx 
+		connection.send(player.score);
+		connection.send(player.box_idx);
+
+
 		//NOTE: can't just 'send(name)' because player.name is not plain-old-data type.
 		//effectively: truncates player name to 255 chars
 		uint8_t len = uint8_t(std::min< size_t >(255, player.name.size()));
 		connection.send(len);
 		connection.send_buffer.insert(connection.send_buffer.end(), player.name.begin(), player.name.begin() + len);
+
 	};
 
 	//player count:
 	connection.send(uint8_t(players.size()));
+	//players[0] is local player
 	if (connection_player) send_player(*connection_player);
 	for (auto const &player : players) {
 		if (&player == connection_player) continue;
@@ -272,6 +296,10 @@ bool Game::recv_state_message(Connection *connection_) {
 		read(&player.position);
 		read(&player.velocity);
 		read(&player.color);
+		//TODO: send box idx 
+		read(&player.score);
+		read(&player.box_idx);
+
 		uint8_t name_len;
 		read(&name_len);
 		//n.b. would probably be more efficient to directly copy from recv_buffer, but I think this is clearer:

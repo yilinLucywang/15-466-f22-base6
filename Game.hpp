@@ -42,6 +42,10 @@ struct Player {
 	glm::vec2 position = glm::vec2(0.0f, 0.0f);
 	glm::vec2 velocity = glm::vec2(0.0f, 0.0f);
 
+	//TODOLucy: what I have added
+	int score = 0;
+	int box_idx = 0
+
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 	std::string name = "";
 };
@@ -84,4 +88,9 @@ struct Game {
 	//send game state.
 	//  Will move "connection_player" to the front of the front of the sent list.
 	void send_state_message(Connection *connection, Player *connection_player = nullptr) const;
+
+	//five boxes
+	std::vector<glm::vec2> box_positions{glm::vec2(10.0f, 10.0f), glm::vec2(15.0f,15.0f), glm::vec2(20.0f, 20.0f), glm::vec2(25.0f, 25.0f), glm::vec2(30.0f, 30.0f)};
+	float box_size = 0.06f;
+	int box_idx = 0;
 };
