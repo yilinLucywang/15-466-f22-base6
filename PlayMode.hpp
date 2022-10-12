@@ -31,5 +31,5 @@ struct PlayMode : Mode {
 	//connection to server:
 	Client &client;
 
-	std::vector<glm::vec2> box_positions{glm::vec2(10.0f, 10.0f), glm::vec2(15.0f,15.0f), glm::vec2(20.0f, 20.0f), glm::vec2(25.0f, 25.0f), glm::vec2(30.0f, 30.0f)};
+	std::vector<glm::vec2> box_positions{glm::vec2(-0.5f, -0.75f), glm::vec2(-0.25f,-0.5f), glm::vec2(-0.5f, -0.5f), glm::vec2(0.5f, 0.5f), glm::vec2(0.5f, 0.75f)};
 };

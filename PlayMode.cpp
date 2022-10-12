@@ -175,20 +175,17 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 					col
 				);
 			}
-
-			//TODO: draw those boxes
-			glm::vec2 box_pos = box_positions[player.box_idx];
-			lines.draw(glm::vec3(box_pos.x - Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::vec3(box_pos.x + Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
-			lines.draw(glm::vec3(box_pos.x - Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::vec3(box_pos.x + Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
-			
-			lines.draw(glm::vec3(box_pos.x - Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::vec3(box_pos.x - Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
-			lines.draw(glm::vec3(box_pos.x + Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::vec3(box_pos.x + Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
-			draw_text(player.position + glm::vec2(0.0f, -0.1f + Game::PlayerRadius), player.name, 0.09f);
-			
+			draw_text(player.position + glm::vec2(0.0f, 0.05f + Game::PlayerRadius), player.name, 0.09f);
+			//TODO: display local player's score
+			draw_text(player.position + glm::vec2(0.0f, -0.2f + Game::PlayerRadius), "score: " + std::to_string(player.score), 0.09f);
 		}
-
-		//TODO: display local player's score
-		draw_text(game.players.front().position + glm::vec2(0.0f, -0.1f + Game::PlayerRadius), std::to_string(game.players.front().score), 0.09f);
+		//TODO: draw those boxes
+		glm::vec2 box_pos = box_positions[game.players.front().box_idx];
+		lines.draw(glm::vec3(box_pos.x - Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::vec3(box_pos.x + Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
+		lines.draw(glm::vec3(box_pos.x - Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::vec3(box_pos.x + Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
+			
+		lines.draw(glm::vec3(box_pos.x - Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::vec3(box_pos.x - Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
+		lines.draw(glm::vec3(box_pos.x + Game::box_size, box_pos.y - Game::box_size, 0.0f), glm::vec3(box_pos.x + Game::box_size, box_pos.y + Game::box_size, 0.0f), glm::u8vec4(0xff, 0x00, 0xff, 0xff));
 	}
 	GL_ERRORS();
 }
