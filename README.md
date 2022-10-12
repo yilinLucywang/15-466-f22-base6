@@ -1,10 +1,10 @@
-# (TODO: your game's title)
+# Catch box
 
-Author: (TODO: your name)
+Author: Yilin Wang
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design: Compete with other players to be the first one who catches the box and win scores. 
 
-Networking: (TODO: How does your game implement client/server multiplayer? What messages are transmitted? Where in the code?)
+Networking: The collision detection of the player and the box and the generation of the box index is done in the Game::update loop. Message transmitted between client server is player's position, color, score and the box index it is in the Game::send_state_message.The information is processed in the Game::recv_state_message. 
 
 Screen Shot:
 
@@ -12,9 +12,9 @@ Screen Shot:
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+WASD to move
 
-Sources: (TODO: list a source URL for any assets you did not create yourself. Make sure you have a license for the asset.)
+Sources: Build upon the original example multiplayer game in the base 6 source code. 
 
 This game was built with [NEST](NEST.md).
 
